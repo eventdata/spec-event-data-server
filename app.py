@@ -31,7 +31,7 @@ def get_result(query):
         print "Got Data"
         cursor = db.cameo_events.find(dict)
         print "Got Data"
-        return '{"status": success, "data": '+dumps(cursor)+"}"
+        return '{"status": "success", "data": '+dumps(cursor)+"}"
     except:
         e = sys.exc_info()[0]
         print e
