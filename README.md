@@ -82,6 +82,8 @@ Find all the events that have occurred after June 15, 2016
 
 You need to specify the date using the `$date()` directive. The date format is now flexible, but in future it may change. 
 
+To find out more, follow the documentation [here](https://docs.mongodb.com/getting-started/python/query/)
+
 
 
 
