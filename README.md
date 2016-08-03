@@ -6,7 +6,9 @@ The webserver is running on a machine hosted in Big Data Management and Analytic
 
 To access the data use the follwoing url format.
 
-`http://10.176.148.60:5000/api/data?api_key=<api-key-here>&query=<query-for-data>`
+`http://10.176.148.60:5000/api/data?api_key=<api-key-here>&query=<query-for-data>&select=<comma-separated-list-of-attributes>`
+
+The `select` part is optional. It is used when you need only specific attributes for a record.
 
 To get the API Key, please contact the [developer](mailto:sxs149331@utdallas.edu?subject=Request for API Access - SPEC Event Data Server).
 
@@ -19,7 +21,7 @@ The server returns the resulted data and status of operation (i.e. "success" or 
      "data": [ ... event data array ...]
 }
 ```
-Each entry of the `data` array has the following structure 
+Each entry of the `data` array has the following structure (when nothing specified using `select`)
 ```
 {
 	"code": "",
@@ -39,7 +41,24 @@ Each entry of the `data` array has the following structure
 	}
 }
 ```
-The intial database contains 2368 such cameo event records.
+If you use select like below
+
+`http://...&select=source,target,code`
+
+Then the structure will be as follows
+
+```
+{
+	"code": "",
+	"target": "",
+	"source": "",
+	"_id": {
+		"$oid": ""
+	}
+}
+```
+
+The intial database contains 2368 cameo event records.
 
 ##How to query for that data:
 
@@ -56,5 +75,13 @@ Find all the events with camoe code 030 and has "Seoul" as location
 Find all the events that has "United States of America" as source or target.
 
 `{"$or":[{"source":"United States of America"}, {"target":"United States of America"}]}`
+
+Find all the events that have occurred after June 15, 2016
+
+`{"date" : { "$gt" : "$date(06-15-2016)" }}`
+
+You need to specify the date using the `$date()` directive. The date format is now flexible, but in future it may change. 
+
+
 
 
