@@ -30,8 +30,7 @@ def create_project_dict(proj_str, delim=','):
     for f in fields:
         proj_dict[f.strip()] = 1
     return proj_dict
-  
-create_project_dict('hello,world,dhaka')    
+    
 
 def query_formatter(query_dict):
     for key in query_dict:

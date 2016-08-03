@@ -65,7 +65,8 @@ def get_result(query, projection=None):
         print "Got Data"
         
         cursor = None
-        
+        query_formatter(query_dict)
+        print query_dict
         if projection is not None:
             proj_dict = create_project_dict(projection)
             cursor = db.cameo_events.find(query_dict, proj_dict)
