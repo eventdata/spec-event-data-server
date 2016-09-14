@@ -13,7 +13,9 @@ from dateutil import parser
 app = Flask(__name__)
 app.config['PROPAGATE_EXCEPTIONS']=True
 
-mongoClient = MongoClient()
+mongo_ip = "10.176.148.60"
+
+mongoClient = MongoClient(host=mongo_ip)
 api_key = 'CD75737EF4CAC292EE17B85AAE4B6'
 
 
@@ -87,11 +89,17 @@ def get_data():
     print query
     response_data = ""
     api_key_received = request.args.get('api_key')
-    if api_key_received == api_key:
-        response_data = get_result(str(urllib.unquote_plus(query)), projection)
-    else:
-        response_data = '{"status": "error", "data":"invalid api key"}"'
-    return Response(response_data, mimetype='application/json')
+    try:
+        if api_key_received == api_key:
+            response_data = get_result(str(urllib.unquote_plus(query)), projection)
+        else:
+            response_data = '{"status": "error", "data":"invalid api key"}"'
+        return Response(response_data, mimetype='application/json')
+    except:
+        e = sys.exc_info()[0]
+        print e
+        return Response('{"status": "error", "data":"'+str(e)+'"}')
+        
 
 
 if __name__ == "__main__":
