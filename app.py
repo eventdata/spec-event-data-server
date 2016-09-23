@@ -94,11 +94,15 @@ def get_data():
             response_data = get_result(str(urllib.unquote_plus(query)), projection)
         else:
             response_data = '{"status": "error", "data":"invalid api key"}"'
-        return Response(response_data, mimetype='application/json')
+        resp = Response(response_data, mimetype='application/json')
+        resp.headers['Access-Control-Allow-Origin'] = '*'
+        return resp
     except:
         e = sys.exc_info()[0]
         print e
-        return Response('{"status": "error", "data":"'+str(e)+'"}')
+        resp = Response('{"status": "error", "data":"'+str(e)+'"}')
+        resp.headers['Access-Control-Allow-Origin'] = '*'
+        return resp
         
 
 
