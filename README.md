@@ -27,7 +27,7 @@ Each entry of the `data` array has the following structure (when nothing specifi
 	"code": "",
 	"target": "",
 	"headline": "",
-	"country": "",
+	"country_code": "",
 	"coordinates": [X, Y],
 	"content": "",
 	"source": "",
