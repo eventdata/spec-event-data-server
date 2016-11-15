@@ -52,7 +52,7 @@ def get_result(query, projection=None):
     
     try:
         print query
-        mongoClient = MongoClient()
+        mongoClient = MongoClient(host=mongo_ip)
         db = mongoClient.spec
        
         print query
@@ -64,9 +64,9 @@ def get_result(query, projection=None):
         print query_dict
         if projection is not None:
             proj_dict = create_project_dict(projection)
-            cursor = db.phoenix_data.find(query_dict, proj_dict)
+            cursor = db.pd_concise.find(query_dict, proj_dict)
         else:    
-            cursor = db.phoenix_data.find(query_dict)
+            cursor = db.pd_concise.find(query_dict)
         print "Got Data"
         return '{"status": "success", "data": '+dumps(cursor)+"}"
     except:
