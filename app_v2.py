@@ -47,7 +47,7 @@ def query_formatter(query_dict):
 
 
 
-def get_result(query, projection=None):
+def get_result(query, projection=None, unique=None):
     print "Inside Method"
     
     try:
@@ -68,6 +68,8 @@ def get_result(query, projection=None):
         else:    
             cursor = db.pd_concise.find(query_dict)
         print "Got Data"
+        if unique is not None:
+            cursor = cursor.distinct(unique)
         return '{"status": "success", "data": '+dumps(cursor)+"}"
     except:
         e = sys.exc_info()[0]
@@ -78,13 +80,16 @@ def get_result(query, projection=None):
 def get_data():
     query = request.args.get('query')
     projection = request.args.get('select')
+    unique = request.args.get('unique')
     print projection 
     print query
+    print unique
+
     response_data = ""
     api_key_received = request.args.get('api_key')
     try:
         if api_key_received == api_key:
-            response_data = get_result(str(urllib.unquote_plus(query)), projection)
+            response_data = get_result(str(urllib.unquote_plus(query)), projection, unique=unique)
         else:
             response_data = '{"status": "error", "data":"invalid api key"}"'
         resp = Response(response_data, mimetype='application/json')
