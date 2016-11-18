@@ -6,9 +6,9 @@ The webserver is running on a machine hosted in Big Data Management and Analytic
 
 To access the data use the follwoing url format.
 
-`http://10.176.148.60:5000/api/data?api_key=<api-key-here>&query=<query-for-data>&select=<comma-separated-list-of-attributes>`
+`http://10.176.148.60:5000/api/data?api_key=<api-key-here>&query=<query-for-data>&select=<comma-separated-list-of-attributes>&unique=<name-of-attribute>`
 
-The `select` part is optional. It is used when you need only specific attributes for a record.
+The `select` and `unique` parts are optional. `select` is used when you need only specific attributes for a record.`unique` is used for selecting distinct values for a particular attribute.
 
 To get the API Key, please contact the [developer](mailto:sxs149331@utdallas.edu?subject=Request for API Access - SPEC Event Data Server).
 
@@ -58,6 +58,15 @@ Then the structure will be as follows
 }
 ```
 
+If unique is used like the following
+
+`http://...&unique=source`
+
+The ourput will be a JSON-Array like the following.
+```
+{"status": "success", "data": ["AFGCOPGOV", "JPN", "SAUGOV", "GBR", "USRTKMCOPGOVENV", "IND", "PRTBUS", "ISRGOV", "RUS", "AUT", "CHN", "PRKGOV", "KWT", "IGOUNO", "JOR", "PSEREB", "USACVL", "ITA", "CHNGOV", "FRA", .......]
+```
+
 The intial database contains 2368 cameo event records.
 
 ##How to query for that data:
@@ -89,7 +98,7 @@ To find out more, follow the documentation [here](https://docs.mongodb.com/getti
 ##How to access:
 
 Similar as above, use the follwoing kind of url (port number is 5002, instead of 5000)
-`http://10.176.148.60:5002/api/data?api_key=<api-key-here>&query=<query-for-data>&select=<comma-separated-list-of-attributes>`
+`http://10.176.148.60:5002/api/data?api_key=<api-key-here>&query=<query-for-data>&select=<comma-separated-list-of-attributes>&unique=<name-of-attribute>`
 
 ##Query Format:
 Similar to above, except for dates. Dates are represented as String in `YYYYMMDD` format. So to query for events which happened on June 23, 2015, use the following query,
