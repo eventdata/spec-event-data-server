@@ -10,7 +10,7 @@ To access the data use the follwoing url format.
 
 The `select` and `unique` parts are optional. `select` is used when you need only specific attributes for a record.`unique` is used for selecting distinct values for a particular attribute.
 
-To get the API Key, please contact the [developer](mailto:sxs149331@utdallas.edu?subject=Request for API Access - SPEC Event Data Server).
+To get the API Key, please contact the [developer](mailto:sxs149331@utdallas.edu?subject=Request%20for%20API%20Access%20-%20SPEC%20Event%20Data%20Server).
 
 ## What you get:
 
@@ -69,7 +69,7 @@ The ourput will be a JSON-Array like the following.
 
 The intial database contains 2368 cameo event records.
 
-##How to query for that data:
+## How to query for that data:
 
 We are using Mongo DB query syntax. The query is expressed in JSON Format. Here is some examples - 
 
@@ -93,14 +93,14 @@ You need to specify the date using the `$date()` directive. The date format is n
 
 To find out more, follow the documentation [here](https://docs.mongodb.com/getting-started/python/query/)
 
-#Version 2: Working with Phoenix Dataset (Larger Dataset)
+# Version 2: Working with Phoenix Dataset (Larger Dataset)
 
-##How to access:
+## How to access:
 
 Similar as above, use the follwoing kind of url (port number is 5002, instead of 5000)
 `http://10.176.148.60:5002/api/data?api_key=<api-key-here>&query=<query-for-data>&select=<comma-separated-list-of-attributes>&unique=<name-of-attribute>`
 
-##Query Format:
+## Query Format:
 Similar to above, except for dates. Dates are represented as String in `YYYYMMDD` format. So to query for events which happened on June 23, 2015, use the following query,
 
 `{'date8':'20150623'}`
