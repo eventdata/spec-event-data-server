@@ -24,8 +24,8 @@ project_dict = {'event_id': 1, 'date8': 1, 'year': 1, 'month': 1, 'day': 1,
                 'source_text': 1, 'longitude': 1, 'latitude': 1}
 
 # TODO: Uncomment when variable names change in MongoDB
-# TODO: I'm not sure what event_id maps to. Leftover tags are {X, GID, None}
-# project_dict = {'event_id': 1, 'Date': 1, 'Year': 1, 'Month': 1, 'Day': 1,
+# TODO: I'm not sure what event_id maps to. Leftover tags are {X, GID, None}. I set it to GID
+# project_dict = {'GID': 1, 'Date': 1, 'Year': 1, 'Month': 1, 'Day': 1,
 #                 'Source': 1, 'SrcActor': 1, 'SrcAgent': 1, 'SOthAgent': 1,
 #                 'Target': 1, 'TgtActor': 1, 'TgtAgent': 1, 'TOthAgent': 1,
 #                 'CAMEO': 1, 'RootCode': 1, 'QuadClass': 1, 'Goldstein': 1,
