@@ -34,6 +34,17 @@ def create_project_dict(proj_str, delim=','):
         proj_dict[f.strip()] = 1
     return proj_dict
 
+def __get_mongo_connection():
+    MONGO_PORT = "3154"
+    MONGO_USER = "event_reader"
+    MONGO_PSWD = "dml2016"
+    MONGO_SERVER_IP = "172.29.100.14"
+    MONGO_PORT = "3154"
+
+    
+    password = urllib.quote_plus(MONGO_PSWD)
+    return MongoClient('mongodb://' + MONGO_USER + ':' + password + '@' + MONGO_SERVER_IP + ":" + MONGO_PORT)
+
 def query_formatter(query_dict):
     for key in query_dict:
         if isinstance(query_dict[key], dict):
@@ -52,8 +63,8 @@ def get_result(query, projection=None, unique=None):
     
     try:
         print query
-        mongoClient = MongoClient(host=mongo_ip)
-        db = mongoClient.spec
+        mongoClient = __get_mongo_connection()
+        db = mongoClient.event_scrape
        
         print query
         query_dict = json.load(StringIO(unicode(query, 'utf-8')))
@@ -70,12 +81,16 @@ def get_result(query, projection=None, unique=None):
         print "Got Data"
         if unique is not None:
             cursor = cursor.distinct(unique)
+        mongoClient.close()    
         return '{"status": "success", "data": '+dumps(cursor)+"}"
     except:
         e = sys.exc_info()[0]
         print e
+        mongoClient.close()
         return '{"status": "error", "data":'+str(e)+"}"
-    
+    finally:
+        mongoClient.close()
+        
 @app.route("/api/data")
 def get_data():
     query = request.args.get('query')
