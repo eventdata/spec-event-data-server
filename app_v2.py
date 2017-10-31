@@ -75,9 +75,9 @@ def get_result(query, projection=None, unique=None):
         print query_dict
         if projection is not None:
             proj_dict = create_project_dict(projection)
-            cursor = db.phoenix_data.find(query_dict, proj_dict)
+            cursor = db.phoenix_events.find(query_dict, proj_dict)
         else:    
-            cursor = db.phoenix_data.find(query_dict)
+            cursor = db.phoenix_events.find(query_dict)
         print "Got Data"
         if unique is not None:
             cursor = cursor.distinct(unique)
