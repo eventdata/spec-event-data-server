@@ -3,6 +3,7 @@ from flask import request, Response
 from pymongo.mongo_client import MongoClient
 from pymongo.errors import ConnectionFailure
 from bson.json_util import dumps
+from bson.json_util import ObjectId
 import json
 import sys
 import urllib
@@ -55,10 +56,16 @@ def query_formatter(query):
             query_formatter(stage)
         return
 
+    print(query)
     # Query formatting
     for key in query:
         if type(query[key]) is dict:
-            query_formatter(query[key])
+            # Convert strict oid tags into ObjectIds to allow id comparisons
+            if 'oid' in query[key]:
+                query[key] = ObjectId(query[key]['oid'])
+            else:
+                query_formatter(query[key])
+
         else:
             if str(query[key]).startswith("$date"):
                 date_str = str(query[key]).replace("$date", "").replace("(", "").replace(")", "").strip()
@@ -92,14 +99,15 @@ def get_result(query=None, aggregate=None, projection=None, unique=None):
 
     # Query submission
     try:
-        if query and aggregate:
+        if query is not None and aggregate:
             raise ValueError("'query' and 'aggregate' are not compatible")
 
-        if not (query or aggregate):
+        if query is None and not aggregate:
             raise ValueError("'query' or 'aggregate' must be given")
 
-        if query:
+        if query is not None:
             query_formatter(query)
+            print(query)
             proj_dict = create_project_dict(projection)
 
             cursor = db.phoenix_events.find(query, proj_dict)
