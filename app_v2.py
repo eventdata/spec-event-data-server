@@ -56,7 +56,6 @@ def query_formatter(query):
             query_formatter(stage)
         return
 
-    print(query)
     # Query formatting
     for key in query:
         if type(query[key]) is dict:
@@ -73,25 +72,23 @@ def query_formatter(query):
                 query[key] = date_obj
 
 def __get_mongo_connection():
-    MONGO_PORT = "3154"
-    MONGO_USER = "event_reader"
-    MONGO_PSWD = "dml2016"
-    MONGO_SERVER_IP = "172.29.100.14"
-    MONGO_PORT = "3154"
-
-
-    password = urllib.quote_plus(MONGO_PSWD)
-    return MongoClient('mongodb://' + MONGO_USER + ':' + password + '@' + MONGO_SERVER_IP + ":" + MONGO_PORT)
     # For local debugging
-    # return MongoClient("127.0.0.1:27017")
+    return MongoClient("127.0.0.1:27017")
 
 
-def get_result(query=None, aggregate=None, projection=None, unique=None):
+def get_result(dataset, query=None, aggregate=None, projection=None, unique=None):
 
     # Open connection
     try:
         mongoClient = __get_mongo_connection()
         db = mongoClient.event_scrape
+
+        # Set the collection based on dataset
+        if dataset == "phoenix":
+            collection = db.phoenix_events
+        if dataset == "icews":
+            collection = db.icews_events
+
     except ConnectionFailure:
         e = sys.exc_info()[1]
         print(e)
@@ -110,14 +107,14 @@ def get_result(query=None, aggregate=None, projection=None, unique=None):
             print(query)
             proj_dict = create_project_dict(projection)
 
-            cursor = db.phoenix_events.find(query, proj_dict)
+            cursor = collection.find(query, proj_dict)
 
             if unique:
                 cursor = cursor.distinct(unique)
 
         else:
             query_formatter(aggregate)
-            cursor = db.phoenix_events.aggregate(aggregate)
+            cursor = collection.aggregate(aggregate)
 
         response = '{"status": "success", "data": ' + dumps(cursor) + "}"
 
@@ -139,9 +136,15 @@ def get_data():
     projection = request.args.get('select')
     unique = request.args.get('unique')
     group = request.args.get('group')
+    dataset = request.args.get('dataset')
 
     try:
         if api_key_received != api_key: raise ValueError("Invalid API key")
+
+        if dataset is None:
+            dataset = "phoenix"
+
+        print("Dataset:    " + str(dataset))
 
         if query:
             query = json.loads(urllib.unquote_plus(query))
@@ -174,6 +177,7 @@ def get_data():
         if unique: print("Unique:     " + str(unique))
 
         response_data = get_result(
+            dataset,
             query=query,
             aggregate=aggregate,
             projection=projection,
