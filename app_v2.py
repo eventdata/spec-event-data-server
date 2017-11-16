@@ -13,9 +13,9 @@ from dateutil import parser
 app = Flask(__name__)
 app.config['PROPAGATE_EXCEPTIONS']=True
 
-mongo_ip = "10.176.148.60"
+#mongo_ip = "10.176.148.60"
 
-mongoClient = MongoClient(host=mongo_ip)
+#mongoClient = MongoClient(host=mongo_ip)
 api_key = 'CD75737EF4CAC292EE17B85AAE4B6'
 
 
@@ -38,7 +38,7 @@ def __get_mongo_connection():
     MONGO_PORT = "3154"
     MONGO_USER = "event_reader"
     MONGO_PSWD = "dml2016"
-    MONGO_SERVER_IP = "172.29.100.14"
+    MONGO_SERVER_IP = "172.29.100.22"
     MONGO_PORT = "3154"
 
     
