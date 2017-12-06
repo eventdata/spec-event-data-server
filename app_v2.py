@@ -84,10 +84,7 @@ def get_result(dataset, query=None, aggregate=None, projection=None, unique=None
         db = mongoClient.event_scrape
 
         # Set the collection based on dataset
-        if dataset == "phoenix":
-            collection = db.phoenix_events
-        if dataset == "icews":
-            collection = db.icews_events
+        collection = db[dataset + "_events"]
 
     except ConnectionFailure:
         e = sys.exc_info()[1]
@@ -143,6 +140,8 @@ def get_data():
 
         if dataset is None:
             dataset = "phoenix"
+
+        assert(dataset in ["phoenix", "phoenix_fbis", "phoenix_nyt", "phoenix_swb", "icews"])
 
         print("Dataset:    " + str(dataset))
 
