@@ -119,6 +119,8 @@ def get_result(dataset, query=None, aggregate=None, projection=None, unique=None
 
         # Set the collection based on dataset
         collection = db[ds_to_collection_names[dataset]]
+        print "Collection Found"
+
 
     except ConnectionFailure:
         e = sys.exc_info()[1]
