@@ -25,6 +25,12 @@ ds_to_collection_names = {
      "phoenix_rt": "phoenix_events"
 }
 
+ds_descrtions = {"cline_phoenix_nyt": "This data was produced using state-of-the-art PETRARCH-2 software to analyze content from the New York Times (1945-2005)",
+                 "cline_phoenix_fbis": "This data was produced using state-of-the-art PETRARCH-2 software to analyze content from the the CIA’s Foreign Broadcast Information Service (1995-2004).",
+                 "cline_phoenix_swb" : "This data was produced using state-of-the-art PETRARCH-2 software to analyze content from the BBC Monitoring's Summary of World Broadcasts (1979-2015)",
+                 "icews":  "Data produced for the Integrated Crisis Early Warning System (ICEWS) for the Defense Advanced Research Projects Agency (DARPA) and Office of Naval Research (ONR). Additional information about the ICEWS program can be found at http://www.icews.com/.",
+                 "phoenix_rt": "Realtime event data in phoenix format genrated by system hosted at jetstream.org, TACC supported, from November 2017 onwards."}
+
 projection_map = {}
 fields_map = {}
 
@@ -181,6 +187,23 @@ def get_datafields():
         if not __verify_access(api_key_received): raise ValueError("Invalid API Key")
         if data_source not in ds_to_collection_names: raise ValueError("Unknown datasource")
         resp = Response('{"status": "success", "data": '+str(fields_map[data_source])+'}')
+    except:
+        e = sys.exc_info()
+        print(e)
+        resp = Response('{"status": "error", "data":"' + str(e) + '"}', mimetype='application/json')
+
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
+
+@app.route("/api/describe")
+def get_description():
+    api_key_received = request.args.get('api_key')
+    data_source = request.args.get('datasource')
+
+    try:
+        if not __verify_access(api_key_received): raise ValueError("Invalid API Key")
+        if data_source not in ds_to_collection_names: raise ValueError("Unknown datasource")
+        resp = Response('{"status": "success", "data": '+str(ds_descrtions[data_source])+'}')
     except:
         e = sys.exc_info()
         print(e)
