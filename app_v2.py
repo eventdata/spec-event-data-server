@@ -118,7 +118,7 @@ def get_result(dataset, query=None, aggregate=None, projection=None, unique=None
         db = mongoClient.event_scrape
 
         # Set the collection based on dataset
-        collection = db[dataset + "_events"]
+        collection = db[ds_to_collection_names[dataset]]
 
     except ConnectionFailure:
         e = sys.exc_info()[1]
@@ -226,7 +226,7 @@ def get_data():
     dataset = request.args.get('dataset')
 
     try:
-        if __verify_access(api_key_received): raise ValueError("Invalid API key")
+        if not __verify_access(api_key_received): raise ValueError("Invalid API key")
 
         if dataset is None:
             dataset = "phoenix_rt"
