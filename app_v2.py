@@ -33,7 +33,7 @@ def setup_app(app):
 
     db = mongoClient.event_scrape
     for key in ds_to_collection_names:
-        entry = db[ds_to_collection_names[key]].fine_one()
+        entry = db[ds_to_collection_names[key]].find_one()
         fields = list(entry.keys())
         fields_map[key] = fields
         projection_map[key] = {}
