@@ -18,11 +18,11 @@ mongo_ip = "10.176.148.60"
 api_key = 'CD75737EF4CAC292EE17B85AAE4B6'
 
 ds_to_collection_names = {
-     "cline_phoenix_nyt": u"phoenix_nyt_events",
-     "cline_phoenix_fbis": u"phoenix_fbis_events",
-     "cline_phoenix_swb" : u"phoenix_swb_events",
-     "icews":  u"icews_events",
-     "phoenix_rt": u"phoenix_events"
+     "cline_phoenix_nyt": "phoenix_nyt_events",
+     "cline_phoenix_fbis": "phoenix_fbis_events",
+     "cline_phoenix_swb" : "phoenix_swb_events",
+     "icews":  "icews_events",
+     "phoenix_rt": "phoenix_events"
 }
 
 ds_descrtions = {"cline_phoenix_nyt": "This data was produced using state-of-the-art PETRARCH-2 software to analyze content from the New York Times (1945-2005)",
@@ -120,7 +120,7 @@ def get_result(dataset, query=None, aggregate=None, projection=None, unique=None
         print db.collection_names()
         print "Searching ", ds_to_collection_names[dataset]
         # Set the collection based on dataset
-        collection = db[str(ds_to_collection_names[dataset])]
+        collection = db[ds_to_collection_names[dataset].encode('utf-8')]
         print "Collection Found"
 
 
