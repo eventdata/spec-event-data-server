@@ -116,9 +116,9 @@ def get_result(dataset, query=None, aggregate=None, projection=None, unique=None
     try:
         mongoClient = __get_mongo_connection()
         db = mongoClient.event_scrape
-
+        print "Searching"
         # Set the collection based on dataset
-        collection = db[ds_to_collection_names[dataset]]
+        collection = db[str(ds_to_collection_names[dataset])]
         print "Collection Found"
 
 
