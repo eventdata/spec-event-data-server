@@ -8,6 +8,9 @@ import json
 import sys
 import urllib
 
+reload(sys)
+sys.setdefaultencoding('utf8')
+
 from dateutil import parser
 
 app = Flask(__name__)
