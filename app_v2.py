@@ -125,12 +125,12 @@ def get_result(dataset, query=None, aggregate=None, projection=None, unique=None
         # Set the collection based on dataset
         collectionName = ds_to_collection_names[dataset]
         print collectionName
-        if collectionName == 'phoenix_events':
-            print "Matched"
-        else:
-            print "No Match"
+        # if collectionName == 'phoenix_events':
+        #     print "Matched"
+        # else:
+        #     print "No Match"
 
-        collection = db['phoenix_events']
+        collection = db[collectionName]
         print "Collection Found"
 
 
@@ -280,7 +280,7 @@ def get_data():
         if unique: print("Unique:     " + str(unique))
 
         response_data = get_result(
-            ds_to_collection_names[dataset],
+            dataset,
             query=query,
             aggregate=aggregate,
             projection=projection,
