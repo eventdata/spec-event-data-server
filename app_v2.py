@@ -17,12 +17,33 @@ mongo_ip = "10.176.148.60"
 
 api_key = 'CD75737EF4CAC292EE17B85AAE4B6'
 
-project_dict = {'event_id': 1, 'date8': 1, 'year': 1, 'month': 1, 'day': 1,
-                'source': 1, 'src_actor': 1, 'src_agent': 1, 'src_other_agent': 1,
-                'target': 1, 'tgt_actor': 1, 'tgt_agent': 1, 'tgt_other_agent': 1,
-                'code': 1, 'root_code': 1, 'quad_class': 1, 'goldstein': 1,
-                'geoname': 1, 'country_code': 1, 'admin_info': 1, 'id': 1, 'url': 1,
-                'source_text': 1, 'longitude': 1, 'latitude': 1}
+ds_to_collection_names = {
+     "cline_phoenix_nyt": "phoenix_nyt_events",
+     "cline_phoenix_fbis": "phoenix_fbis_events",
+     "cline_phoenix_swb" : "phoenix_swb_events",
+     "icews":  "icews_events",
+     "phoenix_rt": "phoenix_events"
+}
+
+projection_map = {}
+fields_map = {}
+
+def __initialize():
+    mongoClient = __get_mongo_connection()
+
+    db = mongoClient.event_scrape
+    for key in ds_to_collection_names:
+        entry = db[ds_to_collection_names[key]].fine_one()
+        fields = list(entry.keys())
+        fields_map[key] = fields
+        projection_map[key] = {}
+        for field in fields:
+            projection_map[key][field] = 1
+
+    print "Initialization Complete."
+
+
+
 
 def create_project_dict(proj_str, delim=','):
 
@@ -73,7 +94,14 @@ def query_formatter(query):
 
 def __get_mongo_connection():
     # For local debugging
-    return MongoClient("127.0.0.1:27017")
+    MONGO_SERVER_IP = "172.29.100.22"
+    MONGO_PORT = "3154"
+    MONGO_USER = "event_reader"
+    MONGO_PSWD = "dml2016"
+    NUM_ARTICLES = 1000
+
+    password = urllib.quote_plus(MONGO_PSWD)
+    return MongoClient('mongodb://' + MONGO_USER + ':' + password + '@' + MONGO_SERVER_IP + ":" + MONGO_PORT)
 
 
 def get_result(dataset, query=None, aggregate=None, projection=None, unique=None):
@@ -123,6 +151,45 @@ def get_result(dataset, query=None, aggregate=None, projection=None, unique=None
     mongoClient.close()
     return response
 
+def __verify_access(api_key_received):
+    return api_key_received == api_key
+
+
+
+@app.route("/api/datasources")
+def get_datasources():
+    api_key_received = request.args.get('api_key')
+
+
+    try:
+        if not __verify_access(api_key_received): raise ValueError("Invalid API Key")
+        resp = Response('{"status": "success", "data": '+str(ds_to_collection_names.keys())+'}')
+    except:
+        e = sys.exc_info()
+        print(e)
+        resp = Response('{"status": "error", "data":"' + str(e) + '"}', mimetype='application/json')
+
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
+
+@app.route("/api/fields")
+def get_datasources():
+    api_key_received = request.args.get('api_key')
+    data_source = request.args.get('datasource')
+
+    try:
+        if not __verify_access(api_key_received): raise ValueError("Invalid API Key")
+        if data_source not in ds_to_collection_names: raise ValueError("Unknown datasource")
+        resp = Response('{"status": "success", "data": '+str(fields_map[data_source])+'}')
+    except:
+        e = sys.exc_info()
+        print(e)
+        resp = Response('{"status": "error", "data":"' + str(e) + '"}', mimetype='application/json')
+
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
+
+
 
 @app.route("/api/data")
 def get_data():
@@ -136,12 +203,12 @@ def get_data():
     dataset = request.args.get('dataset')
 
     try:
-        if api_key_received != api_key: raise ValueError("Invalid API key")
+        if __verify_access(api_key_received): raise ValueError("Invalid API key")
 
         if dataset is None:
-            dataset = "phoenix"
+            dataset = "phoenix_rt"
 
-        assert(dataset in ["phoenix", "phoenix_fbis", "phoenix_nyt", "phoenix_swb", "icews"])
+        assert(dataset in ds_to_collection_names)
 
         print("Dataset:    " + str(dataset))
 
@@ -176,7 +243,7 @@ def get_data():
         if unique: print("Unique:     " + str(unique))
 
         response_data = get_result(
-            dataset,
+            ds_to_collection_names[dataset],
             query=query,
             aggregate=aggregate,
             projection=projection,
@@ -195,4 +262,5 @@ def get_data():
 
 
 if __name__ == "__main__":
+    __initialize()
     app.run(host='0.0.0.0', port=5002)
