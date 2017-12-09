@@ -121,7 +121,7 @@ def get_result(dataset, query=None, aggregate=None, projection=None, unique=None
         db = mongoClient.event_scrape
 
         print db.collection_names()
-        print "Searching ", ds_to_collection_names[dataset]
+        #print "Searching ", ds_to_collection_names[dataset]
         # Set the collection based on dataset
         collection = db['phoenix_events']
         print "Collection Found"
