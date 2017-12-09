@@ -123,6 +123,13 @@ def get_result(dataset, query=None, aggregate=None, projection=None, unique=None
         print db.collection_names()
         #print "Searching ", ds_to_collection_names[dataset]
         # Set the collection based on dataset
+        collectionName = ds_to_collection_names[dataset]
+        print collectionName
+        if collectionName == 'phoenix_events':
+            print "Matched"
+        else:
+            print "No Match"
+
         collection = db['phoenix_events']
         print "Collection Found"
 
