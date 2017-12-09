@@ -28,7 +28,7 @@ ds_to_collection_names = {
 projection_map = {}
 fields_map = {}
 
-def __initialize():
+def setup_app(app):
     mongoClient = __get_mongo_connection()
 
     db = mongoClient.event_scrape
@@ -173,7 +173,7 @@ def get_datasources():
     return resp
 
 @app.route("/api/fields")
-def get_datasources():
+def get_datafields():
     api_key_received = request.args.get('api_key')
     data_source = request.args.get('datasource')
 
@@ -260,7 +260,8 @@ def get_data():
     resp.headers['Access-Control-Allow-Origin'] = '*'
     return resp
 
+setup_app(app)
 
 if __name__ == "__main__":
-    __initialize()
+
     app.run(host='0.0.0.0', port=5002)
