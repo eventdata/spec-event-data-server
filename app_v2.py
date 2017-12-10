@@ -237,7 +237,7 @@ def get_data():
     projection = request.args.get('select')
     unique = request.args.get('unique')
     group = request.args.get('group')
-    dataset = request.args.get('dataset')
+    dataset = request.args.get('datasource')
 
     try:
         if not __verify_access(api_key_received): raise ValueError("Invalid API key")
