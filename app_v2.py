@@ -257,8 +257,7 @@ def get_data():
         if aggregate:
             aggregate = json.loads(urllib.unquote_plus(aggregate))
             print("Aggregate:  " + str(aggregate))
-            if projection:
-                aggregate["$project"] = create_project_dict(projection)
+
 
         # Grouping overrides aggregate
         if group:
