@@ -103,14 +103,7 @@ def query_formatter(query):
 
 def __get_mongo_connection():
     # For local debugging
-    MONGO_SERVER_IP = "172.29.100.22"
-    MONGO_PORT = "3154"
-    MONGO_USER = "event_reader"
-    MONGO_PSWD = "dml2016"
-    NUM_ARTICLES = 1000
-
-    password = urllib.quote_plus(MONGO_PSWD)
-    return MongoClient('mongodb://' + MONGO_USER + ':' + password + '@' + MONGO_SERVER_IP + ":" + MONGO_PORT)
+    return MongoClient("127.0.0.1:27017")
 
 
 def get_result(dataset, query=None, aggregate=None, projection=None, unique=None):
