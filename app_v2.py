@@ -238,6 +238,7 @@ def get_data():
     unique = request.args.get('unique')
     group = request.args.get('group')
     dataset = request.args.get('datasource')
+    print dataset
 
     try:
         if not __verify_access(api_key_received): raise ValueError("Invalid API key")

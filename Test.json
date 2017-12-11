@@ -1,0 +1,18 @@
+{
+	"_id" : ObjectId("59f7ffe8583dca26c72947e0"),
+	"code" : "010",
+	"src_actor" : "ITA",
+	"date8" : "20171031", "month" : "10", "year" : "2017", "day" : "31",
+	"country_code" : "DEU",
+	"id" : "59f7fea8de7923402d8a5d6d_4",
+	"source" : "ITAGOVBUS", "src_agent" : "GOV", "src_other_agent" : "BUS",
+	"target" : "DEU", "tgt_actor" : "DEU", "tgt_agent" : "", "tgt_other_agent" : "",
+	"latitude" : 50.11552,
+	"quad_class" : 0,
+	"source_text" : "euroobs",
+	"root_code" : "01",
+	"goldstein" : 0,
+	"geoname" : "Frankfurt am Main Hessen",
+	"longitude" : 8.68417,
+	"url" : "https://euobserver.com/economic/139660?utm_medium=rss"
+}
