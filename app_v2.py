@@ -1,4 +1,4 @@
-from flask import Flask, send_from_directory
+from flask import Flask
 from flask import request, Response
 from pymongo.mongo_client import MongoClient
 from pymongo.errors import ConnectionFailure
@@ -306,7 +306,7 @@ def get_data():
 @app.route('/signup')
 def signup_page():
     root_dir = os.path.dirname(os.getcwd())
-    return send_from_directory(root_dir, 'signup.html')
+    return app.send_static_file('signup.html')
 
 @app.route("/api/signup", methods=["POST"])
 def signup():
