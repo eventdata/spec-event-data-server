@@ -16,7 +16,7 @@ sys.setdefaultencoding('utf8')
 
 from dateutil import parser
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='')
 app.config['PROPAGATE_EXCEPTIONS'] = True
 
 mongo_ip = "10.176.148.60"
@@ -301,6 +301,9 @@ def get_data():
 
     resp.headers['Access-Control-Allow-Origin'] = '*'
     return resp
+@app.route('/signup')
+def signup_page():
+    return app.send_static_file('signup.html')
 
 @app.route("/api/signup", methods=["POST"])
 def signup():
