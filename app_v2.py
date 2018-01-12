@@ -339,15 +339,15 @@ def signup_page():
 
     return app.send_static_file('signup.html')
 
-
-@app.route('/success')
-def signup_page():
-    return app.send_static_file('success.html')
-
-
-@app.route('/error')
-def signup_page():
-    return app.send_static_file('error.html')
+#
+# @app.route('/success')
+# def signup_page():
+#     return app.send_static_file('success.html')
+#
+#
+# @app.route('/error')
+# def signup_page():
+#     return app.send_static_file('error.html')
 
 
 @app.route("/api/signup")
@@ -361,9 +361,9 @@ def signup():
         apiKey = add_user(firstName,lastName,email,mongoClient.event_scrape)
         send_api_key(apiKey, mongoClient.event_scrape)
 
-        redirect("/success")
+        return app.send_static_file('success.html')
     except:
-        redirect("/error")
+        return app.send_static_file('error.html')
 
 
 
