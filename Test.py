@@ -51,16 +51,25 @@ def send_api_key(apiKey, db):
 
 def locate_user(apiKey, db):
     return db.event_users.find_one({"apiKey": apiKey})
+""
 
 
 
+userInfo = db.event_users.find_one({"email": "project2422@gmail.com"})
+
+if userInfo is None:
+    userInfo = {}
+    userInfo["firstName"] = "Happy"
+    userInfo["lastName"] = "Tester"
+    userInfo["email"] = "project2422@gmail.com"
+    userInfo["apiKey"] = "CD75737EF4CAC292EE17B85AAE4B6"
+
+    db.event_users.insert(userInfo)
 
 
-# print api_key_gen()
-#
-# apiKey = add_user("Sayeed", "Salam", "sxs149331", db)
-#
-# send_api_key(apiKey, db)
+print locate_user("test", db)
+client.close()
+
 
 
 

@@ -11,7 +11,7 @@ import os
 
 from Test import add_user
 from Test import send_api_key
-
+from Test import locate_user
 reload(sys)
 sys.setdefaultencoding('utf8')
 
@@ -176,8 +176,11 @@ def get_result(dataset, query=None, aggregate=None, projection=None, unique=None
     return response
 
 def __verify_access(api_key_received):
-    return api_key_received == api_key
-
+    client = __get_mongo_connection()
+    db  = client.event_scrape
+    flag = locate_user(api_key_received, db) != None
+    client.close()
+    return flag
 
 
 @app.route("/api/datasources")
@@ -292,6 +295,8 @@ def get_data():
             projection=projection,
             unique=unique
         )
+
+
 
         resp = Response(response_data, mimetype='application/json')
 
