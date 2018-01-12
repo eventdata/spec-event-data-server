@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, send_from_directory
 from flask import request, Response
 from pymongo.mongo_client import MongoClient
 from pymongo.errors import ConnectionFailure
@@ -7,6 +7,7 @@ from bson.json_util import ObjectId
 import json
 import sys
 import urllib
+import os
 
 from Test import add_user
 from Test import send_api_key
@@ -301,9 +302,11 @@ def get_data():
 
     resp.headers['Access-Control-Allow-Origin'] = '*'
     return resp
+
 @app.route('/signup')
 def signup_page():
-    return app.send_static_file('signup.html')
+    root_dir = os.path.dirname(os.getcwd())
+    return send_from_directory(root_dir, 'signup.html')
 
 @app.route("/api/signup", methods=["POST"])
 def signup():
