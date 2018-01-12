@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, redirect
 from flask import request, Response
 from pymongo.mongo_client import MongoClient
 from pymongo.errors import ConnectionFailure
@@ -8,6 +8,7 @@ import json
 import sys
 import urllib
 import os
+from datetime import datetime
 
 from Test import add_user
 from Test import send_api_key
@@ -310,7 +311,18 @@ def get_data():
             unique=unique
         )
 
+        mongo_client = __get_mongo_connection()
+        db = mongo_client.event_scrape
+        userInfo = locate_user(api_key_received, db)
 
+        log_message = {}
+        log_message["userID"] = userInfo.get("_id")
+        log_message["query"] = request.query_string
+        log_message["time"] = datetime.now()
+        log_message["size"] = len(response_data)
+
+        db.access_log.insert(log_message)
+        mongo_client.close()
 
         resp = Response(response_data, mimetype='application/json')
 
@@ -324,8 +336,19 @@ def get_data():
 
 @app.route('/signup')
 def signup_page():
-    root_dir = os.path.dirname(os.getcwd())
+
     return app.send_static_file('signup.html')
+
+
+@app.route('/success')
+def signup_page():
+    return app.send_static_file('success.html')
+
+
+@app.route('/error')
+def signup_page():
+    return app.send_static_file('error.html')
+
 
 @app.route("/api/signup")
 def signup():
@@ -334,8 +357,16 @@ def signup():
     email = request.args.get("email")
 
     mongoClient = __get_mongo_connection()
-    apiKey = add_user(firstName,lastName,email,mongoClient.event_scrape)
-    send_api_key(apiKey, mongoClient.event_scrape)
+    try:
+        apiKey = add_user(firstName,lastName,email,mongoClient.event_scrape)
+        send_api_key(apiKey, mongoClient.event_scrape)
+
+        redirect("/success")
+    except:
+        redirect("/error")
+
+
+
 
 
 setup_app(app)
