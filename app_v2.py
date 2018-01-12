@@ -308,7 +308,7 @@ def signup_page():
     root_dir = os.path.dirname(os.getcwd())
     return app.send_static_file('signup.html')
 
-@app.route("/api/signup", methods=["POST"])
+@app.route("/api/signup")
 def signup():
     firstName = request.args.get("firstName")
     lastName = request.args.get("lastName")
