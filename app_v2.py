@@ -8,6 +8,9 @@ import json
 import sys
 import urllib
 
+from Test import add_user
+from Test import send_api_key
+
 reload(sys)
 sys.setdefaultencoding('utf8')
 
@@ -299,8 +302,19 @@ def get_data():
     resp.headers['Access-Control-Allow-Origin'] = '*'
     return resp
 
+@app.route("/api/signup", methods=["POST"])
+def signup():
+    firstName = request.args.get("firstName")
+    lastName = request.args.get("lastName")
+    email = request.args.get("email")
+
+    mongoClient = __get_mongo_connection()
+    apiKey = add_user(firstName,lastName,email,mongoClient.event_scrape)
+    send_api_key(apiKey, mongoClient.event_scrape)
+
+
 setup_app(app)
 
 if __name__ == "__main__":
 
-    app.run(host='0.0.0.0', port=5002, threaded=True)
+    app.run(host='0.0.0.0', port=5003, threaded=True)

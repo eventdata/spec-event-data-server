@@ -1,67 +1,66 @@
-from pymongo.mongo_client import MongoClient
-from io import StringIO
-from bson.json_util import dumps
-import json
-import ast
-import yaml
-from datetime import datetime
+from pymongo import MongoClient
+import random
+import string
+import smtplib
 
-from dateutil import parser
+from email.mime.text import MIMEText
 
-date_format = "%m-%d-%Y %I:%M:%S %p"
 
-project_dict = {
-    "code": 1,
-    "target": 1,
-    "headline": 0,
-    "country": 0,
-    "coordinates": 0,
-    "content": 0,
-    "source": 1,
-    "link": 0,
-    "location": 1,
-    "date": 1,
-    "_id": 1    
-}
 
-def create_project_dict(proj_str, delim=','):
-    fields = proj_str.split(delim)
-    proj_dict = {}
-    for f in fields:
-        proj_dict[f.strip()] = 1
-    return proj_dict
-    
+client = MongoClient(host="127.0.0.1")
 
-def query_formatter(query_dict):
-    for key in query_dict:
-        if isinstance(query_dict[key], dict):
-            query_formatter(query_dict[key])
-        else:
-            if str(query_dict[key]).startswith("$date"):
-                date_str = str(query_dict[key]).replace("$date", "").replace("(", "").replace(")","").strip()
-                date_obj = parser.parse(date_str)
-                query_dict[key] = date_obj
-                
 
-mongoClient = MongoClient(host="dmlhdpc10")
- 
-db = mongoClient.spec
- 
-query = '{"date" : { "$gte" : "$date(06-17-2016)" }}'
- 
- 
-  
-query_dict = json.load(StringIO(unicode(query, 'utf-8')))
- 
-query_formatter(query_dict=query_dict)
-   
-print query_dict
- 
-cursor = db.cameo_events.find(query_dict, create_project_dict('source, target, code, date'))
- 
-data = dumps(cursor)
- 
-print data
+db = client.event_scrape
 
-print datetime.fromtimestamp(1465999427000/1000.0)
+
+def api_key_gen():
+    return ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(32))
+
+
+
+
+def add_user(firstName, lastName, email, db):
+
+    userInfo = db.event_users.find_one({"email": email})
+
+    if userInfo is None:
+        userInfo = {}
+        userInfo["firstName"] = firstName
+        userInfo["lastName"] = lastName
+        userInfo["email"] = email
+        userInfo["apiKey"] = api_key_gen()
+
+        db.event_users.insert(userInfo)
+
+    return userInfo["apiKey"]
+
+def send_api_key(apiKey, db):
+    userInfo = locate_user(apiKey, db)
+    fromaddr = 'project2422@gmail.com'
+    toaddrs = userInfo["email"]
+    msg = MIMEText("Here is the api key: "+apiKey)
+    msg['Subject'] = "API Key for accessing event data repository"
+    username = 'project2422@gmail.com'
+    password = 'workingwell'
+    server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+    # server.ehlo()
+    # server.starttls()
+    server.login(username, password)
+    server.sendmail(fromaddr, toaddrs, msg.as_string())
+    server.quit()
+
+def locate_user(apiKey, db):
+    return db.event_users.find_one({"apiKey": apiKey})
+
+
+
+
+
+# print api_key_gen()
+#
+# apiKey = add_user("Sayeed", "Salam", "sxs149331", db)
+#
+# send_api_key(apiKey, db)
+
+
 
