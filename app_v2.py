@@ -53,6 +53,20 @@ def setup_app(app):
         for field in fields:
             projection_map[key][field] = 1
 
+    userInfo = db.event_users.find_one({"email": "project2422@gmail.com"})
+
+    if userInfo is None:
+        userInfo = {}
+        userInfo["firstName"] = "Happy"
+        userInfo["lastName"] = "Tester"
+        userInfo["email"] = "project2422@gmail.com"
+        userInfo["apiKey"] = "CD75737EF4CAC292EE17B85AAE4B6"
+
+        db.event_users.insert(userInfo)
+
+    print locate_user("test", db)
+
+
     print "Initialization Complete."
 
 
