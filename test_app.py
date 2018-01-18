@@ -130,8 +130,8 @@ def __get_mongo_connection():
     NUM_ARTICLES = 1000
 
     password = urllib.quote_plus(MONGO_PSWD)
-    return MongoClient('mongodb://' + MONGO_USER + ':' + password + '@' + MONGO_SERVER_IP + ":" + MONGO_PORT)
-    #return MongoClient(host="127.0.0.1")
+    #return MongoClient('mongodb://' + MONGO_USER + ':' + password + '@' + MONGO_SERVER_IP + ":" + MONGO_PORT)
+    return MongoClient(host="127.0.0.1")
 
 def get_result(dataset, query=None, aggregate=None, projection=None, unique=None):
 
@@ -360,7 +360,6 @@ def signup():
     organization = request.args.get("organization")
     position = request.args.get("position")
     purpose = request.args.get("purpose")
-
     print "Inside signup method"
 
     g_recaptcha_response = request.args.get("g-recaptcha-response")
@@ -375,8 +374,7 @@ def signup():
     mongoClient = __get_mongo_connection()
     try:
         ret_value = json.loads(res.content)
-        if firstName == "" or lastName == "" or email == "" or country == "" or organization == "" or position == "" or purpose == "":
-            raise Exception("Empty field not acceptable")
+
         print ret_value['success']
         if g_recaptcha_response == "":
             raise Exception("Captcha Verification Failed")

@@ -19,7 +19,7 @@ def api_key_gen():
 
 
 
-def add_user(firstName, lastName, email, db):
+def add_user(firstName, lastName, email, country, organization, position, purpose, db):
 
     userInfo = db.event_users.find_one({"email": email})
 
@@ -28,6 +28,10 @@ def add_user(firstName, lastName, email, db):
         userInfo["firstName"] = firstName
         userInfo["lastName"] = lastName
         userInfo["email"] = email
+        userInfo["country"] = country
+        userInfo["organization"] = organization
+        userInfo["position"] = position
+        userInfo["purpose"] = purpose
         userInfo["apiKey"] = api_key_gen()
 
         db.event_users.insert(userInfo)

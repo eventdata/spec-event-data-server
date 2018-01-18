@@ -1,4 +1,9 @@
 <html>
+<head>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+
+</head>
+
 <body>
 
 <h4>Please provide necessary information for accessing the Event Data API</h4>
@@ -12,8 +17,21 @@
   Email:<br>
     <input type="text" name="email" value="">
   <br><br>
+  Country:<br>
+    <input type="text" name="country" value="">
+  <br><br>
+  Organization: <br>
+    <input type="text" name="organization" value="">
+    <br><br>
+  Working as:<br>
+    <input type="text" name="position" value="">
 
+  <br><br>
+  API Access requesting for:<br>
+    <textarea rows="4" cols="50" name="purpose" value=""></textarea>
+    <br><br>
 
+  <div class="g-recaptcha" data-sitekey="6LfyNUEUAAAAAKbvLpnvh7bbf__GJvr3NLs6vLaK"></div>
   <input type="submit" value="Submit">
 </form>
 
