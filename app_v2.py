@@ -391,7 +391,7 @@ def signup():
 
 
 
-#setup_app(app)
+setup_app(app)
 
 if __name__ == "__main__":
 
