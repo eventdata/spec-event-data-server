@@ -392,7 +392,7 @@ def signup():
 
 @app.route("/")
 def homepage():
-    app.send_static_file("homepage.html")
+    return app.send_static_file("homepage.html")
 
 setup_app(app)
 
