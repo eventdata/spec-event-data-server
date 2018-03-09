@@ -331,6 +331,7 @@ def get_data():
         e = sys.exc_info()
         print(e)
         resp = Response('{"status": "error", "data":"' + str(e) + '"}', mimetype='application/json')
+        mongo_client.close()
 
     resp.headers['Access-Control-Allow-Origin'] = '*'
     return resp
