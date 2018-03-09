@@ -390,7 +390,9 @@ def signup():
         return app.send_static_file('error.html')
 
 
-
+@app.route("/")
+def homepage():
+    app.send_static_file("homepage.html")
 
 setup_app(app)
 
