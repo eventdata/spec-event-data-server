@@ -394,6 +394,10 @@ def signup():
 def homepage():
     return app.send_static_file("homepage.html")
 
+@app.route('/<name>')
+def serve_static(name=None):
+    return app.send_static_file(name)
+
 setup_app(app)
 
 if __name__ == "__main__":
