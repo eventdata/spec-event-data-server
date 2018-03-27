@@ -10,6 +10,7 @@ import urllib
 import os
 from datetime import datetime
 import requests
+import atexit
 
 from Test import add_user
 from Test import send_api_key
@@ -42,6 +43,11 @@ ds_descrtions = {"cline_phoenix_nyt": "This data was produced using state-of-the
 
 projection_map = {}
 fields_map = {}
+
+def exit_handler():
+    print "Exiting from the server"
+
+atexit.register(exit_handler)
 
 def setup_app(app):
     mongoClient = __get_mongo_connection()
