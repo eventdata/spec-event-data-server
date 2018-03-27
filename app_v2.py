@@ -182,7 +182,7 @@ def get_result(dataset, query=None, aggregate=None, projection=None, unique=None
             cursor = collection.aggregate(aggregate)
 
         response = '{"status": "success", "data": ' + dumps(cursor) + "}"
-
+        cursor.close()
     except:
         e = sys.exc_info()[1]
         print(e)
