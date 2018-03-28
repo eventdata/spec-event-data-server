@@ -9,7 +9,7 @@ request_url = "http://eventdata.utdallas.edu/api/fields?api_key=CD75737EF4CAC292
 
 
 def restart_server():
-    sp.Popen("gnome-terminal", shell=True)
+    sp.Popen("gnome-terminal", shell=True, env=dict(os.environ, DISPLAY=":0.0", XAUTHORITY="/home/pi/.Xauthority"))
 
 retry_interval = 60 #seconds
 restart_server()
