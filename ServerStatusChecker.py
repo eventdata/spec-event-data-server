@@ -2,16 +2,17 @@
 import requests
 from requests.exceptions import ConnectionError
 import subprocess as sp
-
+import os
 from time import sleep
 
 request_url = "http://eventdata.utdallas.edu/api/fields?api_key=CD75737EF4CAC292EE17B85AAE4B6&datasource=cline_phoenix_fbis"
 
 
 def restart_server():
-    sp.Popen("gnome-terminal -t web-server  -e \"python app_v2.py\"", shell=True)
+    sp.Popen("gnome-terminal", shell=True)
 
 retry_interval = 60 #seconds
+restart_server()
 while True:
     try:
         sleep(retry_interval)
