@@ -9,7 +9,7 @@ request_url = "http://eventdata.utdallas.edu/api/fields?api_key=CD75737EF4CAC292
 
 
 def restart_server():
-    sp.Popen("gnome-terminal -t web-server --working-directory=/home/ssalam/Desktop/spec-evet-data-server python app_v2.py", shell=True)
+    sp.Popen("gnome-terminal -t web-server  -e \"python app_v2.py\"", shell=True)
 
 retry_interval = 60 #seconds
 while True:
