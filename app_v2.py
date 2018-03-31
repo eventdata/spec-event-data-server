@@ -142,6 +142,7 @@ def __get_mongo_connection():
 def get_result(dataset, query=None, aggregate=None, projection=None, unique=None):
 
     # Open connection
+    mongoClient = None
     try:
         mongoClient = __get_mongo_connection()
         db = mongoClient.event_scrape
@@ -194,7 +195,8 @@ def get_result(dataset, query=None, aggregate=None, projection=None, unique=None
         print(e)
         response = '{"status": "error", "data":' + str(e) + "}"
 
-    mongoClient.close()
+    if mongoClient is not None:
+        mongoClient.close()
     return response
 
 def __verify_access(api_key_received):
