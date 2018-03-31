@@ -190,12 +190,13 @@ def get_result(dataset, query=None, aggregate=None, projection=None, unique=None
 
         response = '{"status": "success", "data": ' + dumps(cursor) + "}"
         #cursor.close()
+        #mongoClient.close()
     except:
         e = sys.exc_info()[1]
         print(e)
         response = '{"status": "error", "data":' + str(e) + "}"
 
-    if mongoClient is not None:
+    finally:
         mongoClient.close()
     return response
 
