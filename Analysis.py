@@ -8,13 +8,13 @@ response = requests.get(url)
 
 print response
 
-events = json.loads(response.content)
+data = json.loads(response.content)
 
-print "Data Loading Complete. Entry count ", len(events)
+print "Data Loading Complete. Entry count ", data['data']
 
 document_to_event_map = {}
 
-for event in events:
+for event in data['data']:
 
     doc_id = event['id'].split("_")[0]
     if doc_id not in document_to_event_map:
