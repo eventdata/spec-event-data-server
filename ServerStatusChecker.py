@@ -12,7 +12,7 @@ def restart_server():
     sp.Popen("gnome-terminal -e 'python app_v2.py'", shell=True)
     #os.system("gnome-terminal -x python app_v2.py")
 retry_interval = 60 #seconds
-#restart_server()
+restart_server()
 while True:
     try:
         sleep(retry_interval)
