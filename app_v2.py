@@ -275,7 +275,7 @@ def get_article():
 
         if doc is not None and len(doc) > 0:
             sentences = doc[0]['corenlp']['sentences']
-            data = str(sentences)
+            data = json.dumps(sentences)
         else:
             status = "error"
             data = "Document not found"

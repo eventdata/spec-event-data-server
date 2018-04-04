@@ -10,7 +10,7 @@ print response
 
 data = json.loads(response.content)
 
-print response.content
+#print response.content
 
 print "Data Loading Complete. Entry count ", len(data["data"])
 
@@ -57,6 +57,31 @@ for doc_id in document_to_event_map:
                 root_code_match += 1
                 if events[0]['code'] == events[1]['code']:
                     event_match += 1
+                    print "Event Match"
+                    doc_id = events[0]['id'].split("_")[0]
+                    print doc_id
+                    url = "http://eventdata.utdallas.edu/api/article?api_key=EmNc8Pbp5XEUIuzlIdxqVlP5g6S1KlNe&doc_id="+doc_id
+
+                    response = requests.get(url)
+
+                    print response.content
+
+                    data = json.loads(response.content)
+                    sentences = data['data']
+                    sent1_id = events[0]['id'].split("_")[1]
+                    sent2_id = events[1]['id'].split("_")[1]
+                    sent1 = ""
+                    sent2 = ""
+                    for sentence in sentences:
+                        if sentence["sentence_id"] == sent1_id:
+                            sent1 = sentence["sentence"]
+                        if sentence["sentence_id"] == sent2_id:
+                            sent2 = sentence["sentence"]
+                    print sent1_id, ":", sent1
+                    print sent2_id, ":", sent2
+                    print events[0]['source'], events[0]['target'], events[0]['code']
+
+
 
         doc_count += 1
 
