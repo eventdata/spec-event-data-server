@@ -258,6 +258,33 @@ def get_description():
     resp.headers['Access-Control-Allow-Origin'] = '*'
     return resp
 
+@app.route("/api/article")
+def get_article():
+    api_key_received = request.args.get('api_key')
+    doc_id = request.args.get("doc_id")
+    status = "sucess"
+    data = ""
+    if not __verify_access(api_key_received):
+        status = "error"
+        data = "API Key Invalid"
+
+    if doc_id is not None:
+        mongo_db = __get_mongo_connection().event_scrape
+
+        doc = mongo_db.processed_stories.find({"corenlp.mongo_id": doc_id})
+        if doc is not None:
+            sentences = doc['corenlp']['sentences']
+            data = str(sentences)
+        else:
+            status = "error"
+            data = "Document not found"
+    else:
+        status = "error"
+        data = "document id not provided"
+    resp = Response('{"status": "'+status+'", "data":"' + data + '"}', mimetype='application/json')
+
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
 
 
 @app.route("/api/data")
