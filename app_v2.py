@@ -282,7 +282,7 @@ def get_article():
     else:
         status = "error"
         data = "document id not provided"
-    resp = Response('{"status": "'+status+'", "data":"' + data + '"}', mimetype='application/json')
+    resp = Response('{"status": "'+status+'", "data":' + data + '}', mimetype='application/json')
 
     resp.headers['Access-Control-Allow-Origin'] = '*'
     return resp
