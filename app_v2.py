@@ -272,8 +272,9 @@ def get_article():
         mongo_db = __get_mongo_connection().event_scrape
 
         doc = mongo_db.processed_stories.find({"corenlp.mongo_id": doc_id})
-        if doc is not None:
-            sentences = doc['corenlp']['sentences']
+
+        if doc is not None and len(doc) > 0:
+            sentences = doc[0]['corenlp']['sentences']
             data = str(sentences)
         else:
             status = "error"
