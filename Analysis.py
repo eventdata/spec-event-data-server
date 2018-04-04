@@ -73,9 +73,9 @@ for doc_id in document_to_event_map:
                     sent1 = ""
                     sent2 = ""
                     for sentence in sentences:
-                        if sentence["sentence_id"] == sent1_id:
+                        if str(sentence["sentence_id"]) == sent1_id:
                             sent1 = sentence["sentence"]
-                        if sentence["sentence_id"] == sent2_id:
+                        if str(sentence["sentence_id"]) == sent2_id:
                             sent2 = sentence["sentence"]
                     print sent1_id, ":", sent1
                     print sent2_id, ":", sent2
