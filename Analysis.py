@@ -1,6 +1,10 @@
 import json
 import requests
 
+from difflib import SequenceMatcher
+
+def similar(a, b):
+    return SequenceMatcher(None, a, b).ratio()
 
 url = "http://eventdata.utdallas.edu/api/data?api_key=EmNc8Pbp5XEUIuzlIdxqVlP5g6S1KlNe&query={\"date8\":{\"$gt\":\"20180228\", \"$lt\": \"20180401\"}}"
 
@@ -41,6 +45,9 @@ root_code_match = 0
 root_code_not_found = 0
 event_match = 0
 doc_count = 0
+output_file = open("events.txt", "w+")
+
+similar_count = {}
 
 for doc_id in document_to_event_map:
     if len(document_to_event_map[doc_id]) == 2:
@@ -64,7 +71,7 @@ for doc_id in document_to_event_map:
 
                     response = requests.get(url)
 
-                    print response.content
+                    #print response.content
 
                     data = json.loads(response.content)
                     sentences = data['data']
@@ -80,14 +87,24 @@ for doc_id in document_to_event_map:
                     print sent1_id, ":", sent1
                     print sent2_id, ":", sent2
                     print events[0]['source'], events[0]['target'], events[0]['code']
+                    val = int(round(10*similar(sent1, sent2)))
+                    if val not in similar_count:
+                        similar_count[val] = 0
+                    similar_count[val] = similar_count[val] + 1
 
+                    from newsplease import NewsPlease
 
+                    article = NewsPlease.from_url(events[0]['url'])
+                    print events[0]['url']
+                    print(article.text)
 
         doc_count += 1
 
 print doc_count
 print root_code_match
 print event_match
+
+print similar_count
 
 
 
