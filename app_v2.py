@@ -372,6 +372,7 @@ def get_data():
         db.access_log.insert(log_message)
         mongo_client.close()
         if size_only:
+            print len(response_data)
             response_data = {"size": len(response_data)}
         resp = Response(response_data, mimetype='application/json')
 
