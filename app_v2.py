@@ -373,7 +373,7 @@ def get_data():
         mongo_client.close()
         if size_only:
             print len(response_data)
-            response_data = {"size": len(response_data)}
+            response_data = json.dumps({"size": len(response_data)})
         resp = Response(response_data, mimetype='application/json')
 
     except:
