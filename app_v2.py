@@ -286,21 +286,21 @@ def get_article():
 
     resp.headers['Access-Control-Allow-Origin'] = '*'
     return resp
-@app.route("/api/datasize")
-def get_datasize():
-    response = redirect("/api/data")
-    data = {"status": "success", "size": len(response.data)}
-    resp = Response(data, mimetype='application/json')
-
-    resp.headers['Access-Control-Allow-Origin'] = '*'
-    return resp
+# @app.route("/api/datasize")
+# def get_datasize():
+#     response = redirect("/api/data")
+#     data = {"status": "success", "size": len(response.data)}
+#     resp = Response(data, mimetype='application/json')
+#
+#     resp.headers['Access-Control-Allow-Origin'] = '*'
+#     return resp
 
 @app.route("/api/data")
 def get_data():
     api_key_received = request.args.get('api_key')
-    size_only = False
-    if request.args.get("size_only") != None:
-        size_only = True
+    # size_only = False
+    # if request.args.get("size_only") != None:
+    #     size_only = True
 
     query = request.args.get('query')
     aggregate = request.args.get('aggregate')
@@ -371,8 +371,8 @@ def get_data():
 
         db.access_log.insert(log_message)
         mongo_client.close()
-        if size_only:
-            response_data = {"size": len(response_data)}
+        # if size_only:
+        #     response_data = {"size": len(response_data)}
         resp = Response(response_data, mimetype='application/json')
 
     except:
