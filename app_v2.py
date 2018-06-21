@@ -262,7 +262,7 @@ def get_description():
 def get_article():
     api_key_received = request.args.get('api_key')
     doc_id = request.args.get("doc_id")
-    status = "sucess"
+    status = "success"
     data = ""
     if not __verify_access(api_key_received):
         status = "error"
@@ -298,6 +298,7 @@ def get_datasize():
 @app.route("/api/data")
 def get_data():
     api_key_received = request.args.get('api_key')
+    size_only = (request.args.get("size_only") != None)
 
     query = request.args.get('query')
     aggregate = request.args.get('aggregate')
@@ -368,7 +369,8 @@ def get_data():
 
         db.access_log.insert(log_message)
         mongo_client.close()
-
+        if size_only:
+            response_data = {"size": len(response_data)}
         resp = Response(response_data, mimetype='application/json')
 
     except:
