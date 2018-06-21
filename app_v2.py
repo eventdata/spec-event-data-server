@@ -298,7 +298,9 @@ def get_datasize():
 @app.route("/api/data")
 def get_data():
     api_key_received = request.args.get('api_key')
-    size_only = (request.args.get("size_only") != None)
+    size_only = False
+    if request.args.get("size_only") != None:
+        size_only = True
 
     query = request.args.get('query')
     aggregate = request.args.get('aggregate')
