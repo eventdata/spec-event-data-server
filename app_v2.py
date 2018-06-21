@@ -286,7 +286,14 @@ def get_article():
 
     resp.headers['Access-Control-Allow-Origin'] = '*'
     return resp
+@app.route("/api/datasize")
+def get_datasize():
+    response = redirect("/api/data")
+    data = {"status": "success", "size": len(response.data)}
+    resp = Response(data, mimetype='application/json')
 
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
 
 @app.route("/api/data")
 def get_data():
