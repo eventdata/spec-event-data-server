@@ -303,7 +303,7 @@ def get_text():
         doc = list(mongo_db.stories.find({"_id": ObjectId(doc_id)}).limit(1))
 
         if doc is not None and len(doc) > 0:
-
+            doc[0]['date_added'] = None
             data = json.dumps(doc[0])
         else:
             status = "error"
