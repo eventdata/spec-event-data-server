@@ -304,6 +304,7 @@ def get_text():
 
         if doc is not None and len(doc) > 0:
             doc[0]['date_added'] = None
+            doc[0]['id'] = str(doc[0]['id'])
             data = json.dumps(doc[0])
         else:
             status = "error"
