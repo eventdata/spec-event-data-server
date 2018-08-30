@@ -286,6 +286,36 @@ def get_article():
 
     resp.headers['Access-Control-Allow-Origin'] = '*'
     return resp
+
+@app.route("/api/text")
+def get_text():
+    api_key_received = request.args.get('api_key')
+    doc_id = request.args.get("doc_id")
+    status = "success"
+    data = ""
+    if not __verify_access(api_key_received):
+        status = "error"
+        data = "API Key Invalid"
+
+    if doc_id is not None:
+        mongo_db = __get_mongo_connection().event_scrape
+
+        doc = list(mongo_db.stories.find({"_id": ObjectId(doc_id)}).limit(1))
+
+        if doc is not None and len(doc) > 0:
+
+            data = json.dumps(doc[0])
+        else:
+            status = "error"
+            data = "Document not found"
+    else:
+        status = "error"
+        data = "document id not provided"
+    resp = Response('{"status": "'+status+'", "data":' + data + '}', mimetype='application/json')
+
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
+
 # @app.route("/api/datasize")
 # def get_datasize():
 #     response = redirect("/api/data")
