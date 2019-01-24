@@ -139,7 +139,7 @@ def __get_mongo_connection():
     return MongoClient('mongodb://' + MONGO_USER + ':' + password + '@' + MONGO_SERVER_IP + ":" + MONGO_PORT)
     #return MongoClient(host="127.0.0.1")
 
-def get_result(dataset, query=None, aggregate=None, projection=None, unique=None):
+def get_result(dataset, query=None, aggregate=None, projection=None, unique=None, limit=0):
 
     # Open connection
     mongoClient = None
@@ -179,7 +179,7 @@ def get_result(dataset, query=None, aggregate=None, projection=None, unique=None
             print(query)
             proj_dict = create_project_dict(projection)
 
-            cursor = collection.find(query, proj_dict)
+            cursor = collection.find(query, proj_dict).limit(limit)
 
             if unique:
                 cursor = cursor.distinct(unique)
@@ -339,6 +339,7 @@ def get_data():
     unique = request.args.get('unique')
     group = request.args.get('group')
     dataset = request.args.get('datasource')
+    limit = request.args.get('limit')
     print dataset
 
     try:
@@ -387,7 +388,8 @@ def get_data():
             query=query,
             aggregate=aggregate,
             projection=projection,
-            unique=unique
+            unique=unique,
+            limit = limit
         )
 
         mongo_client = __get_mongo_connection()
