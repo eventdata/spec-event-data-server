@@ -339,7 +339,12 @@ def get_data():
     unique = request.args.get('unique')
     group = request.args.get('group')
     dataset = request.args.get('datasource')
-    limit = request.args.get('limit')
+    limit = 0
+    try:
+        limit = int(request.args.get('limit'))
+    except Exception, e:
+        print "Non numeric limit set by user, assuming NO LIMIT"
+
     print dataset
 
     try:
