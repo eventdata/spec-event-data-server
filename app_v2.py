@@ -32,14 +32,16 @@ ds_to_collection_names = {
      "cline_phoenix_fbis": "phoenix_fbis_events",
      "cline_phoenix_swb" : "phoenix_swb_events",
      "icews":  "icews_events",
-     "phoenix_rt": "phoenix_events"
+     "phoenix_rt": "phoenix_events",
+     "terrier": "terrier_events"
 }
 
 ds_descrtions = {"cline_phoenix_nyt": "This data was produced using state-of-the-art PETRARCH-2 software to analyze content from the New York Times (1945-2005)",
                  "cline_phoenix_fbis": "This data was produced using state-of-the-art PETRARCH-2 software to analyze content from the the CIA's Foreign Broadcast Information Service (1995-2004).",
                  "cline_phoenix_swb" : "This data was produced using state-of-the-art PETRARCH-2 software to analyze content from the BBC Monitoring's Summary of World Broadcasts (1979-2015)",
                  "icews":  "Data produced for the Integrated Crisis Early Warning System (ICEWS) for the Defense Advanced Research Projects Agency (DARPA) and Office of Naval Research (ONR). Additional information about the ICEWS program can be found at http://www.icews.com/.",
-                 "phoenix_rt": "Realtime event data in phoenix format genrated by system hosted at jetstream.org, TACC supported, from November 2017 onwards."}
+                 "phoenix_rt": "Realtime event data in phoenix format genrated by system hosted at jetstream.org, TACC supported, from November 2017 onwards.",
+                 "terrier": "Currently Experimental"}
 
 projection_map = {}
 fields_map = {}
