@@ -124,7 +124,7 @@ def query_formatter(query):
                 query_formatter(query[key])
 
         else:
-            if str(query[key]).startswith("$date"):
+            if str(query[key]).startswith("$date") and str(query[key]) != "$date8_val":
                 date_str = str(query[key]).replace("$date", "").replace("(", "").replace(")", "").strip()
                 date_obj = parser.parse(date_str)
                 query[key] = date_obj
