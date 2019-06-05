@@ -321,7 +321,7 @@ def get_text():
 
 
 @app.route("/api/text_es")
-def get_text():
+def get_text_es():
     api_key_received = request.args.get('api_key')
     doc_id = request.args.get("doc_id")
     status = "success"
