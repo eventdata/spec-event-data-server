@@ -333,7 +333,7 @@ def get_text():
     if doc_id is not None:
         mongo_db = __get_mongo_connection().event_scrape
 
-        doc = list(mongo_db.articles_es.find({"_id": ObjectId(doc_id)}).limit(1))
+        doc = list(mongo_db.articles_spanish.find({"_id": ObjectId(doc_id)}).limit(1))
 
         if doc is not None and len(doc) > 0:
             doc[0]['date_added'] = None
