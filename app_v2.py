@@ -338,6 +338,7 @@ def get_text_es():
         if doc is not None and len(doc) > 0:
             doc[0]['date_added'] = None
             doc[0]['_id'] = str(doc[0]['_id'])
+            doc[0]['pub_date'] = str(doc[0]['pub_date'])
             data = json.dumps(doc[0])
         else:
             status = "error"
