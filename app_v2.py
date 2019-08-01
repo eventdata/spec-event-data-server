@@ -2,9 +2,10 @@ from flask import Flask, redirect
 from flask import request, Response
 from pymongo.mongo_client import MongoClient
 from pymongo.errors import ConnectionFailure
-from bson.json_util import dumps
+#from bson.json_util import dumps
 from bson.json_util import ObjectId
 import json
+from simplejson import dumps
 import sys
 import urllib
 import os
