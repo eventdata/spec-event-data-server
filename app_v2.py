@@ -19,28 +19,28 @@ reload(sys)
 sys.setdefaultencoding('utf8')
 
 
-class Clock:
+class Stopwatch:
 
     def __init__(self):
         self.is_running = False
         self.start = None
         self.end = None
 
-    def start(self):
+    def begin(self):
         if self.is_running:
-            raise ValueError("Clock is already running")
-
+            self.stop()
         self.start = datetime.now()
         self.is_running = True
 
-    def stop(self):
+    def end(self):
         if not self.is_running:
             raise ValueError("Clock is already stopped")
         self.stop = datetime.now()
         self.is_running = False
 
-    def diff(self):
-        return (self.stop()-self.start()).total_seconds()
+    def elapsed_seconds(self):
+        return (self.stop-self.start).total_seconds()
+
 
 from dateutil import parser
 
@@ -169,10 +169,10 @@ def get_result(dataset, query=None, aggregate=None, projection=None, unique=None
 
     # Open connection
     mongoClient = None
-    clock = Clock()
+    clock = Stopwatch()
 
     try:
-        clock.start()
+        clock.begin()
         mongoClient = __get_mongo_connection()
         db = mongoClient.event_scrape
 
@@ -187,7 +187,7 @@ def get_result(dataset, query=None, aggregate=None, projection=None, unique=None
         #     print "No Match"
 
         collection = db[collectionName]
-        clock.stop()
+        clock.end()
 
         print "Time Required to get collection is ", str(clock.diff()), " seconds"
 
@@ -211,9 +211,9 @@ def get_result(dataset, query=None, aggregate=None, projection=None, unique=None
             query_formatter(query)
             print(query)
             proj_dict = create_project_dict(projection)
-            clock.start()
+            clock.begin()
             cursor = collection.find(query, proj_dict).limit(limit)
-            clock.stop()
+            clock.end()
             print "Time Required to complete collection.find is ", str(clock.diff()), " seconds"
 
             if unique:
@@ -222,9 +222,9 @@ def get_result(dataset, query=None, aggregate=None, projection=None, unique=None
         else:
             query_formatter(aggregate)
             cursor = collection.aggregate(aggregate)
-        clock.start()
+        clock.begin()
         response = '{"status": "success", "data": ' + dumps(cursor) + "}"
-        clock.stop()
+        clock.end()
         print "Time Required to dumping data to json is ", str(clock.diff()), " seconds"
 
         #cursor.close()
@@ -558,4 +558,4 @@ setup_app(app)
 
 if __name__ == "__main__":
 
-    app.run(host='0.0.0.0', port=5002, threaded=True)
+    app.run(host='0.0.0.0', port=5007, threaded=True)
