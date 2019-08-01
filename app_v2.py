@@ -223,8 +223,9 @@ def get_result(dataset, query=None, aggregate=None, projection=None, unique=None
         else:
             query_formatter(aggregate)
             cursor = collection.aggregate(aggregate)
+
         clock.begin()
-        response = '{"status": "success", "data": ' + dumps(cursor) + "}"
+        response = '{"status": "success", "data": ' + dumps(cursor.list()) + "}"
         clock.end()
         print "Time Required to dumping data to json is ", str(clock.elapsed_seconds()), " seconds"
 
