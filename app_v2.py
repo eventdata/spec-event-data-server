@@ -18,6 +18,30 @@ from Test import locate_user
 reload(sys)
 sys.setdefaultencoding('utf8')
 
+
+class Clock:
+
+    def __init__(self):
+        self.is_running = False
+        self.start = None
+        self.end = None
+
+    def start(self):
+        if self.is_running:
+            raise ValueError("Clock is already running")
+
+        self.start = datetime.now()
+        self.is_running = True
+
+    def stop(self):
+        if not self.is_running:
+            raise ValueError("Clock is already stopped")
+        self.stop = datetime.now()
+        self.is_running = False
+
+    def diff(self):
+        return (self.stop()-self.start()).total_seconds()
+
 from dateutil import parser
 
 app = Flask(__name__, static_url_path='')
@@ -145,7 +169,10 @@ def get_result(dataset, query=None, aggregate=None, projection=None, unique=None
 
     # Open connection
     mongoClient = None
+    clock = Clock()
+
     try:
+        clock.start()
         mongoClient = __get_mongo_connection()
         db = mongoClient.event_scrape
 
@@ -160,6 +187,10 @@ def get_result(dataset, query=None, aggregate=None, projection=None, unique=None
         #     print "No Match"
 
         collection = db[collectionName]
+        clock.stop()
+
+        print "Time Required to get collection is ", str(clock.diff()), " seconds"
+
         print "Collection Found"
 
 
@@ -180,8 +211,10 @@ def get_result(dataset, query=None, aggregate=None, projection=None, unique=None
             query_formatter(query)
             print(query)
             proj_dict = create_project_dict(projection)
-
+            clock.start()
             cursor = collection.find(query, proj_dict).limit(limit)
+            clock.stop()
+            print "Time Required to complete collection.find is ", str(clock.diff()), " seconds"
 
             if unique:
                 cursor = cursor.distinct(unique)
@@ -189,8 +222,11 @@ def get_result(dataset, query=None, aggregate=None, projection=None, unique=None
         else:
             query_formatter(aggregate)
             cursor = collection.aggregate(aggregate)
-
+        clock.start()
         response = '{"status": "success", "data": ' + dumps(cursor) + "}"
+        clock.stop()
+        print "Time Required to dumping data to json is ", str(clock.diff()), " seconds"
+
         #cursor.close()
         #mongoClient.close()
     except:
