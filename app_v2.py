@@ -4,6 +4,7 @@ from pymongo.mongo_client import MongoClient
 from pymongo.errors import ConnectionFailure
 #from bson.json_util import dumps
 from bson.json_util import ObjectId
+from bson import json_util
 import json
 from simplejson import dumps
 import sys
@@ -225,7 +226,7 @@ def get_result(dataset, query=None, aggregate=None, projection=None, unique=None
             cursor = collection.aggregate(aggregate)
 
         clock.begin()
-        response = '{"status": "success", "data": ' + dumps(list(cursor)) + "}"
+        response = '{"status": "success", "data": ' + dumps(list(cursor), default=json_util.default) + "}"
         clock.end()
         print "Time Required to dumping data to json is ", str(clock.elapsed_seconds()), " seconds"
 
