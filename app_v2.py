@@ -189,7 +189,7 @@ def get_result(dataset, query=None, aggregate=None, projection=None, unique=None
         collection = db[collectionName]
         clock.end()
 
-        print "Time Required to get collection is ", str(clock.diff()), " seconds"
+        print "Time Required to get collection is ", str(clock.elapsed_seconds()), " seconds"
 
         print "Collection Found"
 
@@ -214,7 +214,7 @@ def get_result(dataset, query=None, aggregate=None, projection=None, unique=None
             clock.begin()
             cursor = collection.find(query, proj_dict).limit(limit)
             clock.end()
-            print "Time Required to complete collection.find is ", str(clock.diff()), " seconds"
+            print "Time Required to complete collection.find is ", str(clock.elapsed_seconds()), " seconds"
 
             if unique:
                 cursor = cursor.distinct(unique)
@@ -225,7 +225,7 @@ def get_result(dataset, query=None, aggregate=None, projection=None, unique=None
         clock.begin()
         response = '{"status": "success", "data": ' + dumps(cursor) + "}"
         clock.end()
-        print "Time Required to dumping data to json is ", str(clock.diff()), " seconds"
+        print "Time Required to dumping data to json is ", str(clock.elapsed_seconds()), " seconds"
 
         #cursor.close()
         #mongoClient.close()
