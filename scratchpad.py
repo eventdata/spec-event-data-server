@@ -4,9 +4,10 @@ from datetime import datetime
 class Stopwatch:
 
     def __init__(self):
+        # type: () -> object
         self.is_running = False
         self.start = None
-        self.end = None
+        self.stop = None
 
     def begin(self):
         if self.is_running:
@@ -23,13 +24,14 @@ class Stopwatch:
     def elapsed_seconds(self):
         return (self.stop-self.start).total_seconds()
 
+
 clock = Stopwatch()
 
 print type(clock)
 
-clock.start()
+clock.begin()
 
 
-clock.stop()
+clock.end()
 
 print clock.elapsed_seconds()
