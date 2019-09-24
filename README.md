@@ -94,30 +94,6 @@ You need to specify the date using the `$date()` directive. The date format is n
 
 To find out more, follow the documentation [here](https://docs.mongodb.com/getting-started/python/query/)
 
-# Version 2: Working with Phoenix Dataset (Larger Dataset)
-
-## How to access:
-
-Similar as above, use the follwoing kind of url (port number is 5002, instead of 5000)
-`http://10.176.148.60:5002/api/data?api_key=<api-key-here>&query=<query-for-data>&select=<comma-separated-list-of-attributes>&unique=<name-of-attribute>`
-
-## Query Format:
-Similar to above, except for dates. Dates are represented as String in `YYYYMMDD` format. So to query for events which happened on June 23, 2015, use the following query,
-
-`{'date8':'20150623'}`
-
-## Attributes contained in each record:
-The following is the representation for the structure each record has - 
-```
- {'event_id': , 'date8': , 'year': , 'month': , 'day': ,
-'source': , 'src_actor': , 'src_agent': , 'src_other_agent': ,
-'target': , 'tgt_actor': , 'tgt_agent': , 'tgt_other_agent': ,
-'code': , 'root_code': , 'quad_class': , 'goldstein': ,
-'geoname': , 'country_code': , 'admin_info': , 'id': ,  'url': ,
-'source_text': , 'longitude': , 'latitude': }
-```
-
-Selection of specific attributes works as before.
 
 
 
