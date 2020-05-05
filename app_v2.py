@@ -561,6 +561,7 @@ def signup():
 #
 # import requests
 @app.route("/")
+@app.route("/UTDEventData")
 def homepage():
 
     return app.send_static_file("index.html")
