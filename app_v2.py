@@ -552,9 +552,9 @@ def signup():
         apiKey = add_user(firstName,lastName,email, country, organization, position, purpose,mongoClient.event_scrape)
         send_api_key(apiKey, mongoClient.event_scrape)
 
-        return app.send_static_file('success.html')
+        return Response("API Registraion Successful. Please check your email for API Key.")
     except:
-        return app.send_static_file('error.html')
+        return Response("Registration Failed.")
 
 
 # page_maps = {"/": "http://eventdata.utdallas.edu:4000/UTDEventData/"}
