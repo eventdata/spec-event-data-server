@@ -46,8 +46,10 @@ class Stopwatch:
 
 from dateutil import parser
 
-app = Flask(__name__, static_url_path='')
+app = Flask(__name__, static_folder="/home/ssalam/Desktop/UTDEventData/_site/", static_url_path='')
 app.config['PROPAGATE_EXCEPTIONS'] = True
+
+
 
 mongo_ip = "10.176.148.60"
 
@@ -63,6 +65,8 @@ ds_to_collection_names = {
      "terrier": "terrier_events"
 }
 
+
+
 ds_descrtions = {"cline_phoenix_nyt": "This data was produced using state-of-the-art PETRARCH-2 software to analyze content from the New York Times (1945-2005)",
                  "cline_phoenix_fbis": "This data was produced using state-of-the-art PETRARCH-2 software to analyze content from the the CIA's Foreign Broadcast Information Service (1995-2004).",
                  "cline_phoenix_swb" : "This data was produced using state-of-the-art PETRARCH-2 software to analyze content from the BBC Monitoring's Summary of World Broadcasts (1979-2015)",
@@ -73,6 +77,8 @@ ds_descrtions = {"cline_phoenix_nyt": "This data was produced using state-of-the
 
 projection_map = {}
 fields_map = {}
+
+
 
 def exit_handler():
     print "Exiting from the server"
@@ -551,9 +557,13 @@ def signup():
         return app.send_static_file('error.html')
 
 
+page_maps = {"/": "http://eventdata.utdallas.edu:4000/UTDEventData/"}
+
+import requests
 @app.route("/")
 def homepage():
-    return app.send_static_file("homepage.html")
+
+    return app.send_static_file("index.html")
 
 @app.route('/<name>')
 def serve_static(name=None):
