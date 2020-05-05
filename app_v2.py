@@ -561,12 +561,12 @@ def signup():
 #
 # import requests
 @app.route("/")
-@app.route("/UTDEventData")
+@app.route("/UTDEventData/")
 def homepage():
 
     return app.send_static_file("index.html")
 
-@app.route('/UTDEventData/<name>')
+@app.route('/UTDEventData/<name>/')
 def serve_static(name=''):
     print "Inside Static Server Page"
     #name = name.replace("/UTDEventData", "")
