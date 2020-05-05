@@ -567,6 +567,8 @@ def homepage():
 
 @app.route('/<name>')
 def serve_static(name=None):
+    print "Inside Static Server Page"
+    name = name.replace("/UTDEventData", "")
     return app.send_static_file(name+"/index.html")
 
 setup_app(app)
