@@ -579,7 +579,7 @@ def serve_images(name=None):
     return app.send_static_file("images/"+name)
 
 @app.route('/UTDEventData/css/<name>')
-def serve_images(name=None):
+def serve_css(name=None):
     print "Inside Static Server Page"
     #name = name.replace("/UTDEventData", "")
     return app.send_static_file("css/"+name)
