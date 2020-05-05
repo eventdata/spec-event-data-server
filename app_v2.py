@@ -46,7 +46,7 @@ class Stopwatch:
 
 from dateutil import parser
 
-app = Flask(__name__, static_folder="/home/ssalam/Desktop/UTDEventData/_site/", static_url_path='/UTDEventData')
+app = Flask(__name__, static_folder="/home/ssalam/Desktop/UTDEventData/_site/", static_url_path='')
 app.config['PROPAGATE_EXCEPTIONS'] = True
 
 
