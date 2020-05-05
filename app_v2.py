@@ -572,11 +572,17 @@ def serve_static(name=''):
     #name = name.replace("/UTDEventData", "")
     return app.send_static_file(name+"/index.html")
 
-@app.route('/UTDEventData/<name>')
+@app.route('/UTDEventData/images/<name>')
 def serve_images(name=None):
     print "Inside Static Server Page"
     #name = name.replace("/UTDEventData", "")
-    return app.send_static_file(name)
+    return app.send_static_file("images/"+name)
+
+@app.route('/UTDEventData/css/<name>')
+def serve_images(name=None):
+    print "Inside Static Server Page"
+    #name = name.replace("/UTDEventData", "")
+    return app.send_static_file("css/"+name)
 
 
 setup_app(app)
