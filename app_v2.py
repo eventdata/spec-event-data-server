@@ -572,7 +572,7 @@ def serve_static(name=''):
     return app.send_static_file(name+"/index.html")
 
 @app.route('/UTDEventData/Data')
-def serve_static():
+def serve_data():
     print "Inside Static Server Page"
     #name = name.replace("/UTDEventData", "")
     return app.send_static_file("Data/index.html")
