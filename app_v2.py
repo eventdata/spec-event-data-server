@@ -557,19 +557,26 @@ def signup():
         return app.send_static_file('error.html')
 
 
-page_maps = {"/": "http://eventdata.utdallas.edu:4000/UTDEventData/"}
-
-import requests
+# page_maps = {"/": "http://eventdata.utdallas.edu:4000/UTDEventData/"}
+#
+# import requests
 @app.route("/")
 def homepage():
 
     return app.send_static_file("index.html")
 
 @app.route('/UTDEventData/<name>')
-def serve_static(name=None):
+def serve_static(name=''):
     print "Inside Static Server Page"
     #name = name.replace("/UTDEventData", "")
     return app.send_static_file(name+"/index.html")
+
+@app.route('/UTDEventData/Data')
+def serve_static():
+    print "Inside Static Server Page"
+    #name = name.replace("/UTDEventData", "")
+    return app.send_static_file("Data/index.html")
+
 
 setup_app(app)
 
