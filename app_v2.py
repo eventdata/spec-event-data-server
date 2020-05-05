@@ -565,10 +565,10 @@ def homepage():
 
     return app.send_static_file("index.html")
 
-@app.route('/<name>')
+@app.route('/UTDEventData/<name>')
 def serve_static(name=None):
     print "Inside Static Server Page"
-    name = name.replace("/UTDEventData", "")
+    #name = name.replace("/UTDEventData", "")
     return app.send_static_file(name+"/index.html")
 
 setup_app(app)
