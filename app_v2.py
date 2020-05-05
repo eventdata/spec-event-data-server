@@ -567,7 +567,7 @@ def homepage():
 
 @app.route('/<name>')
 def serve_static(name=None):
-    return app.send_static_file(name)
+    return app.send_static_file(name+"/index.html")
 
 setup_app(app)
 
